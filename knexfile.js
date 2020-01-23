@@ -11,5 +11,13 @@ module.exports = {
     seeds: {
       directory: './data/seeds'
     },
+    // SQLite will not enforce FK constraints by default
+    // ONLY NEEDED FOR SQLITE.
+    pool: {
+      afterCreate: (conn, done) => {
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      },
+    },
   },
 };
